@@ -23,7 +23,8 @@ RUN             apt-get -q update \
                 lib32gcc1 \
                 lsof \
                 git \
-                ca-certificates
+                ca-certificates \
+                vim
 
 # Disable password for sudo.
 RUN             sed -i.bkp -e \
