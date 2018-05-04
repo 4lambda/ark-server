@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eu
-trap "arkmanager stop --warn" INT TERM
+trap "arkmanager stop" INT TERM
 echo "###########################################################################"
 echo "# Ark Server - " `date`
 echo "# UID $(id -u) - GID $(id -g)"
