@@ -19,7 +19,7 @@ mkfifo /tmp/FIFO
 [ ! -L /ark/GameUserSettings.ini ] && ln -s server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini GameUserSettings.ini
 
 crontab /ark/crontab
-if [ ! -d /ark/server  ] || [ ! -f /ark/server/arkversion ];then
+if [ ! -d /ark/server  ] || [ ! -f /ark/server/version.txt ];then
 	echo "No game files found. Installing..."
 	arkmanager install
 fi
