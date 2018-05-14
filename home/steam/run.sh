@@ -1,15 +1,12 @@
 #!/bin/bash
-set -eu
 trap "arkmanager stop" INT TERM
 echo "###########################################################################"
-echo "# Ark Server - " `date`
-echo "# UID $(id -u) - GID $(id -g)"
+echo "# Ark Server - $(date)"
 echo "###########################################################################"
-
 [ -p /tmp/FIFO ] && rm /tmp/FIFO
 mkfifo /tmp/FIFO
 
-# Since /ark is typically an already used volume, verify each file before overwriting.
+# Setup volume files.
 [ ! -f /ark/arkmanager.cfg ] && cp /home/steam/arkmanager.cfg /ark/arkmanager.cfg
 [ ! -f /ark/crontab ] && cp /home/steam/crontab /ark/crontab
 [ ! -d /ark/backup ] && mkdir /ark/backup
@@ -18,8 +15,15 @@ mkfifo /tmp/FIFO
 [ ! -L /ark/Game.ini ] && ln -s server/ShooterGame/Saved/Config/LinuxServer/Game.ini Game.ini
 [ ! -L /ark/GameUserSettings.ini ] && ln -s server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini GameUserSettings.ini
 
-crontab /ark/crontab
-if [ ! -d /ark/server  ] || [ ! -f /ark/server/version.txt ];then
+# Add our crontab and start the daemon.
+if [[ $(crontab -u steam -l | diff crontab -) ]]; then
+    echo "steam's crontab differs from /ark/crontab and will be overwritten!"
+fi
+crontab -u steam /ark/crontab
+crond
+
+# Install if this is a new volume.
+if [ ! -d /ark/server  ] || [ ! -f /ark/server/version.txt ]; then
 	echo "No game files found. Installing..."
 	arkmanager install
 fi

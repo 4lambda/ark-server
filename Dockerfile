@@ -8,6 +8,7 @@ RUN             rpm --import http://mirror.centos.org/centos/7/os/x86_64/RPM-GPG
                     perl-Compress-Zlib \
                     lsof \
                     glibc.i686 \
+                    libstdc++.x86_64 \
                     libstdc++.i686 \
                     bzip2 \
                     git \
@@ -44,10 +45,6 @@ RUN             chown steam -R /ark \
                 && chmod 755 -R /ark \
                 && chmod 777 -R /root
 
-# Setup cron.
-RUN             crond \
-                && sed -i '/session required pam_loginuid.so/d' /etc/pam.d/crond
-
 # Runtime setup.
 ENV             SESSIONNAME="Ark Docker" \
                 SERVERMAP="TheIsland" \
@@ -59,5 +56,4 @@ ENV             SESSIONNAME="Ark Docker" \
 EXPOSE          ${STEAMPORT} 32330 ${SERVERPORT} ${STEAMPORT}/udp ${SERVERPORT}/udp
 WORKDIR         /ark
 VOLUME          /ark
-USER            steam
 CMD             ["/home/steam/run.sh"]
