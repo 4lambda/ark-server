@@ -20,15 +20,7 @@ RUN             rpm --import http://mirror.centos.org/centos/7/os/x86_64/RPM-GPG
 RUN             adduser \
 	            --shell /bin/bash \
 	            --uid 1000 \
-	            --groups wheel \
 	            steam
-
-# Setup our custom configs and crontab mechanism.
-ADD             home/steam /home/steam
-RUN             touch /root/.bash_profile \
-                && chmod 777 /home/steam/run.sh \
-                && mkdir /ark \
-                && ln -s /usr/local/bin/arkmanager /usr/bin/arkmanager
 
 # Install steamcmd.
 RUN             mkdir /home/steam/steamcmd \
@@ -40,10 +32,14 @@ RUN             mkdir /home/steam/steamcmd \
 RUN            curl -sL http://git.io/vtf5N | bash -s steam
 
 # Setup /etc files.
-ADD             etc/arkmanager/ /etc/arkmanager/
-RUN             chown steam -R /ark \
-                && chmod 755 -R /ark \
-                && chmod 777 -R /root
+ADD             etc/ /etc/
+
+# Prepare ARK volume.
+ADD             run.sh /root/
+RUN             mkdir /ark \
+                && chmod 777 -R /ark
+WORKDIR         /ark
+VOLUME          /ark
 
 # Runtime setup.
 ENV             SESSIONNAME="Ark Docker" \
@@ -54,6 +50,5 @@ ENV             SESSIONNAME="Ark Docker" \
                 SERVERPORT=27015 \
                 STEAMPORT=7778
 EXPOSE          ${STEAMPORT} 32330 ${SERVERPORT} ${STEAMPORT}/udp ${SERVERPORT}/udp
-WORKDIR         /ark
-VOLUME          /ark
-CMD             ["/home/steam/run.sh"]
+ENTRYPOINT      ["/bin/bash"]
+CMD             ["/root/run.sh"]
