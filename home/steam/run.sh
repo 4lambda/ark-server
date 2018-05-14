@@ -4,7 +4,7 @@ echo "##########################################################################
 echo "# Ark Server - $(date)"
 echo "###########################################################################"
 [ -p /tmp/FIFO ] && rm /tmp/FIFO
-mkfifo /tmp/FIFO
+mkfifo -m 666 /tmp/FIFO
 
 # Setup volume files.
 [ ! -f /ark/arkmanager.cfg ] && cp /home/steam/arkmanager.cfg /ark/arkmanager.cfg
