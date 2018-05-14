@@ -21,7 +21,9 @@ if [ ! -d /ark/server  ] || [ ! -f /ark/server/version.txt ]; then
 	echo "No game files found. Installing..."
 	arkmanager install
 fi
-arkmanager start && echo "Running..."
 
+arkmanager start
+
+echo "Running..."
 read < /tmp/FIFO &
 wait
