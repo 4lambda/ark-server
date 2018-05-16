@@ -35,7 +35,7 @@ RUN            curl -sL http://git.io/vtf5N | bash -s steam
 ADD             etc/ /etc/
 
 # Prepare ARK volume.
-ADD             run.sh /root/
+ADD             root/ /root/
 RUN             mkdir /ark \
                 && chmod 777 -R /ark
 WORKDIR         /ark

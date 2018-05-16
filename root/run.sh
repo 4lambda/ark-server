@@ -13,7 +13,8 @@ mkfifo -m 666 /tmp/FIFO
 [ ! -L /ark/Game.ini ] && ln -s server/ShooterGame/Saved/Config/LinuxServer/Game.ini Game.ini
 [ ! -L /ark/GameUserSettings.ini ] && ln -s server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini GameUserSettings.ini
 
-## Start the cron daemon.
+# Start the cron daemon.
+crontab /root/crontab
 crond
 
 # Install if this is a new volume.
