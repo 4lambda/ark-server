@@ -7,13 +7,13 @@ echo "##########################################################################
 mkfifo -m 666 /tmp/FIFO
 
 # Setup volume files.
-[ ! -d /ark/backup ] && mkdir /ark/backup
-[ ! -d /ark/staging ] && mkdir /ark/staging
+[ ! -d /ark/backup ] && mkdir /ark/backup && chown -R steam:steam /ark/backup
+[ ! -d /ark/staging ] && mkdir /ark/staging  && chown -R steam:steam /ark/staging
 [ ! -L /ark/log ] && ln -s /var/log/arktools log
 [ ! -L /ark/Game.ini ] && ln -s server/ShooterGame/Saved/Config/LinuxServer/Game.ini Game.ini
 [ ! -L /ark/GameUserSettings.ini ] && ln -s server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini GameUserSettings.ini
 
-# Start the cron daemon.
+# Load our crontab and start the cron daemon.
 crontab /root/crontab
 crond
 
