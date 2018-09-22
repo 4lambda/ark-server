@@ -1,10 +1,8 @@
-FROM            centos:7
+FROM            registry.gitlab.com/rustydb/docker/centos
 MAINTAINER      4Lambda Developers <d@4lambda.io>
 
 # Install system packages.
-RUN             rpm --import http://mirror.centos.org/centos/7/os/x86_64/RPM-GPG-KEY-CentOS-7 \
-                && yum -y -q makecache all \
-                && yum -y -q install \
+RUN             yum -y -q install \
                     perl-Compress-Zlib \
                     lsof \
                     glibc.i686 \
