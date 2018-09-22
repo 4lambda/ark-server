@@ -25,7 +25,7 @@ RUN             adduser \
 # Install steamcmd.
 RUN             mkdir /home/steam/steamcmd \
 	            && cd /home/steam/steamcmd \
-	            && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf - \
+	            && curl -sqL 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz' | tar zxvf - \
 	            && chown -R steam:steam /home/steam/steamcmd
 
 # Install ARK Server Tools.
@@ -42,13 +42,13 @@ WORKDIR         /ark
 VOLUME          /ark
 
 # Runtime setup.
-ENV             SESSIONNAME="Ark Docker" \
-                SERVERMAP="TheIsland" \
-                SERVERPASSWORD="" \
-                ADMINPASSWORD="adminpassword" \
+ENV             SESSIONNAME='Ark Docker' \
+                SERVERMAP='TheIsland' \
+                SERVERPASSWORD='' \
+                ADMINPASSWORD='adminpassword' \
                 NPLAYERS=48 \
                 SERVERPORT=27015 \
                 STEAMPORT=7778
 EXPOSE          ${STEAMPORT} 32330 ${SERVERPORT} ${STEAMPORT}/udp ${SERVERPORT}/udp
-ENTRYPOINT      ["/bin/bash"]
-CMD             ["/root/run.sh"]
+ENTRYPOINT      ['/bin/bash']
+CMD             ['/root/run.sh']
