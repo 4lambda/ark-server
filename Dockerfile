@@ -48,5 +48,5 @@ ENV             SESSIONNAME='Ark Docker' \
                 SERVERPORT=27015 \
                 STEAMPORT=7778
 EXPOSE          ${STEAMPORT} 32330 ${SERVERPORT} ${STEAMPORT}/udp ${SERVERPORT}/udp
-ENTRYPOINT      ['/bin/bash']
-CMD             ['/root/run.sh']
+ENTRYPOINT      ["/bin/bash"]
+CMD             ["/root/run.sh"]
