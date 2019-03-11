@@ -14,7 +14,13 @@ mkfifo -m 666 /tmp/FIFO
 [ ! -L /ark/GameUserSettings.ini ] && ln -s server/ShooterGame/Saved/Config/LinuxServer/GameUserSettings.ini GameUserSettings.ini
 
 # Load our crontab, setup cron's environment, and start the cron daemon.
-crontab /root/crontab
+if [[ -e /ark/crontab ]]; then
+    echo "Loading volume crontab (/ark/crontab)"
+    crontab /ark/crontab
+else
+    echo "Loading default crontab (/root/crontab)"
+    crontab /root/crontab
+fi
 env > /etc/environment
 crond
 

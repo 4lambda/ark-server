@@ -45,7 +45,11 @@ The following sections describe how to modify the instance(s) for your needs.
 ###### Cron Jobs
 
 To change the default behavior of when backups and updates occur, or if you have _more_ behavior to
-add, you can modify `/root/crontab` on the running container.
+add, you can override the default crontab by providing a new cron file at `/ark/crontab`. You can
+make a new file or copy the `/root/crontab`.
+
+The `/ark/crontab` file is loaded on container (re)start, if not present then `/root/crontab` is
+used. 
 
 Note: If you modify cron using the shell command `crontab -e` your changes **will not persist** between
 container starts. The cron for `root` is overwritten at startup. This can be useful if you want to make
