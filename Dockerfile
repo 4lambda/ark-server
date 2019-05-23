@@ -16,15 +16,15 @@ RUN             yum -y -q install \
 
 # Setup our steam user.
 RUN             adduser \
-	            --shell /bin/bash \
-	            --uid 1000 \
-	            steam
+                --shell /bin/bash \
+                --uid 1000 \
+                steam
 
 # Install steamcmd.
 RUN             mkdir /home/steam/steamcmd \
-	            && cd /home/steam/steamcmd \
-	            && curl -sqL 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz' | tar zxvf - \
-	            && chown -R steam:steam /home/steam/steamcmd
+                && cd /home/steam/steamcmd \
+                && curl -sqL 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz' | tar zxvf - \
+                && chown -R steam:steam /home/steam/steamcmd
 
 # Install ARK Server Tools.
 RUN            curl -sL http://git.io/vtf5N | bash -s steam
