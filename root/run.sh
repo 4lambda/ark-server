@@ -25,9 +25,10 @@ env > /etc/environment
 crond
 
 # Install if this is a new volume.
-if [ ! -d /ark/server  ] || [ ! -f /ark/server/version.txt ]; then
+if [ ! -d /ark/server  ] || [ ! -f /ark/version.txt ]; then
         echo "No game files found. Installing..."
         arkmanager install
+        arkmanager --version >/ark/version.txt 2>&1
 fi
 
 arkmanager start
