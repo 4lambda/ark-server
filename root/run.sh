@@ -2,6 +2,7 @@
 trap "arkmanager stop" INT TERM
 echo "###########################################################################"
 echo "# Ark Server - $(date)"
+echo "# ($UID $GID)"
 echo "###########################################################################"
 [ -p /tmp/FIFO ] && rm /tmp/FIFO
 mkfifo -m 666 /tmp/FIFO
