@@ -38,7 +38,6 @@ RUN             mkdir /ark \
                 && chmod 777 -R /ark
 WORKDIR         /ark
 VOLUME          /ark
-VOLUME          /configs
 
 # Runtime setup.
 ENV             SESSIONNAME='Ark Docker' \
