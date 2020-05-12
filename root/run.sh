@@ -32,14 +32,6 @@ if [ ! -d /ark/server  ] || [ ! -f /ark/version.txt ]; then
     arkmanager --version >/ark/version.txt 2>&1
 fi
 
-if [ -d /configs ]; then
-    for file in /configs/*.ini; do
-        if [[ diff /configs/${file} /ark/server/ShooterGame/Saved/Config/LinuxServer/${file} ]]; then
-            cp /confgs/${file} /ark/server/ShooterGame/Saved/Config/LinuxServer/${file}
-        fi
-    done
-fi
-
 arkmanager start
 
 echo "Running..."
