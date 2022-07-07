@@ -1,0 +1,97 @@
+# Do not forget to update port-forwarding for the containerPorts.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ark-server-1-service
+  labels:
+    app: ark-server
+  namespace: dedicated-games
+spec:
+  type: NodePort
+  ports:
+  - port: 7778
+    protocol: TCP
+    name: game-tcp
+  - port: 7778
+    protocol: UDP
+    name: game-udp
+  - port: 27015
+    protocol: TCP
+    name: steam-tcp
+  - port: 27015
+    protocol: UDP
+    name: steam-udp
+  - port: 32330
+    protocol: TCP
+    name: ark
+  selector:
+    app: ark-server
+---
+ apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: ark-server-deployment
+   annotations:
+     deployment.kubernetes.io/revision: '1'
+   generation: 1
+   labels:
+     app: ark-server
+     workload.user.cattle.io/workloadselector: apps.deployment-dedicated-games-ark-server
+   namespace: dedicated-games
+ spec:
+   selector:
+     matchLabels:
+       app: ark-server
+       workload.user.cattle.io/workloadselector: apps.deployment-dedicated-games-ark-server
+   template:
+     metadata:
+       labels:
+         app: ark-server
+         workload.user.cattle.io/workloadselector: apps.deployment-dedicated-games-ark-server
+     spec:
+       containers:
+         - imagePullPolicy: Always
+           name: ark-server-1
+           volumeMounts:
+             - name: vol-efc7e
+               mountPath: /ark
+           image: registry.gitlab.com/4lambda/ark-server:2.1.6
+           ports:
+             - protocol: TCP
+               containerPort: 7778
+             - protocol: UDP
+               containerPort: 7778
+             - protocol: TCP
+               containerPort: 27015
+             - protocol: UDP
+               containerPort: 27015
+             - protocol: TCP
+               containerPort: 32330
+           stdin: false
+           tty: false
+           env:
+             - name: SESSIONNAME
+               value: 4llll - ARK PVP
+             - name: SERVERMAP
+               value: Fjordur
+             - name: ADMINPASSWORD
+               value: Winn3b@g0!
+             - name: NPLAYERS
+               value: '48'
+             - name: TZ
+               value: America/Chicago
+       affinity:
+       dnsConfig:
+       dnsPolicy: ClusterFirstWithHostNet
+       hostAliases:
+       hostNetwork: true
+       hostname: ark-server-1
+       imagePullSecrets:
+       initContainers:
+       restartPolicy: Always
+       volumes:
+         - name: vol-efc7e
+           persistentVolumeClaim:
+             claimName: ark-server-1
+   replicas: 1
