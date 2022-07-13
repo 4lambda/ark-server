@@ -33,9 +33,9 @@ if [ ! -d /ark/server  ] || [ ! -f /ark/version.txt ]; then
 fi
 
 if [ -d /configs ]; then
-    for file in /configs/*.ini; do
-        if diff ${file} /ark/server/ShooterGame/Saved/Config/LinuxServer/$(basename $file); then
-            cp -pv ${file} /ark/server/ShooterGame/Saved/Config/LinuxServer/$(basename $file)
+    for config in $(find /configs -type f -iregex '.*\.ini'); do
+        if diff ${config} /ark/server/ShooterGame/Saved/Config/LinuxServer/$(basename $file); then
+            cp -pv ${config} /ark/server/ShooterGame/Saved/Config/LinuxServer/$(basename $file)
         fi
     done
 fi
