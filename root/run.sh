@@ -35,7 +35,7 @@ fi
 if [ -d /configs ]; then
     for file in /configs/*.ini; do
         if diff ${file} /ark/server/ShooterGame/Saved/Config/LinuxServer/$(basename $file); then
-            cp ${file} /ark/server/ShooterGame/Saved/Config/LinuxServer/$(basename $file)
+            cp -pv ${file} /ark/server/ShooterGame/Saved/Config/LinuxServer/$(basename $file)
         fi
     done
 fi
