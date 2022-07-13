@@ -56,7 +56,7 @@ spec:
            volumeMounts:
              - name: vol-efc7e
                mountPath: /ark
-           image: registry.gitlab.com/4lambda/ark-server:v2.2.0
+           image: ghcr.io/4lambda/ark-server:v2.2.0
            ports:
              - protocol: TCP
                containerPort: 7778
