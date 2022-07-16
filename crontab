@@ -17,5 +17,5 @@ MAILTO=root HOME=/
 # 0 0 * * * arkmanager backup
 # WARNING : the container timezone is maybe not your current timezone
 #           You can sync them with option -v /etc/localtime:/etc/localtime:ro or -e "TZ=UTC"
-30 10 * * * arkmanager update --warn --update-mods --backup --saveworld --safe >> /ark/log/crontab.log 2>&1
-0  *  * * * arkmanager saveworld >> /ark/log/crontab.log 2>&1; arkmanager backup >> /ark/log/crontab.log 2>&1
+0 * * * * arkmanager update --warn --update-mods --backup --saveworld --safe >> /ark/log/crontab.log 2>&1
+0 * * * * arkmanager saveworld >> /ark/log/crontab.log 2>&1; arkmanager backup >> /ark/log/crontab.log 2>&1

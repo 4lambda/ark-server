@@ -2,7 +2,7 @@
 trap "arkmanager stop" INT TERM
 echo "###########################################################################"
 echo "# Ark Server - $(date)"
-echo "# ($UID $GID)"
+echo "# (USER: $UID; GROUP: $GROUPS)"
 echo "###########################################################################"
 [ -p /tmp/FIFO ] && rm /tmp/FIFO
 mkfifo -m 666 /tmp/FIFO
@@ -20,10 +20,9 @@ if [[ -e /ark/crontab ]]; then
     crontab /ark/crontab
 else
     echo "Loading default crontab (/root/crontab)"
-    crontab /root/crontab
+    crontab /home/steam/crontab
 fi
 env > /etc/environment
-crond
 
 # Install if this is a new volume.
 if [ ! -d /ark/server  ] || [ ! -f /ark/version.txt ]; then

@@ -12,28 +12,6 @@ RUN             yum install -y \
                 && yum -q clean all
 
 FROM base as app-base
-
-# Setup our steam user.
-RUN             adduser \
-                --shell /bin/bash \
-                --uid 1000 \
-                steam
-
-# Install steamcmd and ARK Server Tools.
-USER            steam
-WORKDIR         /home/steam/steamcmd
-RUN             curl -sqL 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz' | tar zxvf -
-
-USER            root
-RUN             curl -sL http://git.io/vtf5N | bash -s steam
-
-# Setup /etc files and ARK volume
-COPY             etc /etc/
-COPY             root /root/
-
-VOLUME          /ark
-VOLUME          /configs
-
 # Runtime setup.
 ENV             SESSIONNAME='Ark Docker' \
                 SERVERMAP='TheIsland' \
@@ -44,7 +22,29 @@ ENV             SESSIONNAME='Ark Docker' \
                 STEAMPORT=7778 \
                 RCONPORT=32330 \
                 TZ='America/Chicago'
+
+# Setup our steam user.
+RUN             adduser \
+                --shell /bin/bash \
+                --uid 1000 \
+                steam && \
+                mkdir -v /ark /configs && \
+                chmod 777 /ark /configs && \
+                chmod 777 /etc/environment && \
+                curl -L http://git.io/vtf5N >/root/install.sh && \
+                bash /root/install.sh steam && \
+                crond
+USER            steam
+WORKDIR         /home/steam/steamcmd
+RUN             curl -sqL 'https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz' | tar zxvf -
+
+# Setup /etc files and ARK volume
+COPY            etc /etc/
+COPY            crontab run.sh /home/steam/
+
+VOLUME          /ark
+VOLUME          /configs
+
 EXPOSE          ${STEAMPORT} ${RCONPORT} ${SERVERPORT} ${STEAMPORT}/udp ${SERVERPORT}/udp
 WORKDIR         /ark
-RUN             chmod 777 /ark
-CMD             ["/root/run.sh"]
+CMD             ["/home/steam/run.sh"]
