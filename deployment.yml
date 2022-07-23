@@ -68,6 +68,12 @@ spec:
                containerPort: 27015
              - protocol: TCP
                containerPort: 32330
+           resources:
+             limits:
+               cpu: "12"
+             requests:
+               cpu: "4"
+               memory: 10000Mi
            stdin: false
            tty: false
            env:
